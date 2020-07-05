@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/ChoiceContainer.gd" type="Script" id=1]
+
+[node name="ChoiceContainer" type="PanelContainer"]
+anchor_right = 1.0
+margin_bottom = 14.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChoiceTemplate" type="Button" parent="."]
+visible = false
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 473.0
+margin_bottom = 27.0
+toggle_mode = true
+text = "Haha Hehe"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 473.0
+margin_bottom = 7.0

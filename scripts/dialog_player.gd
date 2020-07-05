@@ -16,23 +16,23 @@ var _waiting = true
 
 func _ready():
 	var Story_Reader_Class = load("res://addons/EXP-System-Dialog/Reference_StoryReader/EXP_StoryReader.gd")
-	self._Story_Reader = Story_Reader_Class.new()
+	_Story_Reader = Story_Reader_Class.new()
 	
-	var story = load("res://stories/Example_Story_Baked.tres")
-	self._Story_Reader.read(story)
+	var story = load("res://stories/main_story_baked.tres")
+	_Story_Reader.read(story)
 
-	self.play_dialog("Plains/Battle/Slime")
+	play_dialog("prologue/intro")
 
 # Callback Methods
 
 
 func _on_NextButton_pressed():
-	if not self._playing_dialog:
+	if not _playing_dialog:
 		return
 	if not _waiting:
-		self._get_next_node()
-		if self._playing_dialog:
-			self._play_node()
+		_get_next_node()
+		if _playing_dialog:
+			_play_node()
 	elif _current_instance:
 		_current_instance.finished()
 
@@ -44,20 +44,18 @@ func _on_Chatline_finished():
 # Public Methods
 
 func play_dialog(record_name : String):
-	self._playing_dialog = true
-	self._did = self._Story_Reader.get_did_via_record_name(record_name)
-	self._nid = self._Story_Reader.get_nid_via_exact_text(self._did, "<start>")
-	self._get_next_node()
-	self._play_node()
+	_playing_dialog = true
+	_did = _Story_Reader.get_did_via_record_name(record_name)
+	_nid = 1#_Story_Reader.get_nid_via_exact_text(_did, "<start>")
+	_play_node()
 
 # Private Methods
 
-func _get_next_node():
-	self._nid = self._Story_Reader.get_nid_from_slot(self._did, self._nid, 0)
-	var final_nid = self._Story_Reader.get_nid_via_exact_text(self._did, "<end>")
-	
-	if self._nid == final_nid:
-		self._playing_dialog = false
+func _get_next_node(slot : int = 0):
+	if (_Story_Reader.has_slot(_did, _nid, slot)):
+		_nid = _Story_Reader.get_nid_from_slot(_did, _nid, slot)
+	else:
+		_playing_dialog = false
 
 
 func _get_tagged_text(tag : String, text : String):
@@ -69,12 +67,30 @@ func _get_tagged_text(tag : String, text : String):
 	return text.substr(start_index, substr_length)
 
 
+func _inject_variables(text : String, start_check : String = "{", end_check : String = "}") -> String:
+	while text.find("{") != -1:
+		var start_index = text.find(start_check)
+		var end_index = text.find(end_check)
+		if end_index == -1:
+			break
+		end_index += end_check.length()
+		var substr_length = end_index - start_index
+		var variable_value = Registry.lookup(text.substr(start_index + start_check.length(), substr_length - (start_check.length() + end_check.length())))
+		text.erase(start_index, substr_length)
+		text = text.insert(start_index, str(variable_value))
+
+	return text
+
 func _play_node():
-	var raw_text = self._Story_Reader.get_text(self._did, self._nid)
-	var speaker_name = self._get_tagged_text("speaker", raw_text)
-	var dialog = self._get_tagged_text("dialog", raw_text)
-	var avatar = load(self._get_tagged_text("avatar", raw_text))
-	
+	var raw_text = _Story_Reader.get_text(_did, _nid)
+	raw_text = _inject_variables(raw_text)
+	var dialog = raw_text
+	var speaker = ""
+	var colon = raw_text.find(":")
+	if colon != -1:
+		speaker = raw_text.substr(0, colon).strip_edges()
+		dialog = raw_text.substr(colon+1).strip_edges()
+
 	_waiting = true
 
 	_current_instance = _chatline.instance()
@@ -82,4 +98,4 @@ func _play_node():
 	_box.add_child(_current_instance)
 	yield(get_tree(), "idle_frame")
 	_scrollcontainer.scroll_vertical = _scrollbar.max_value
-	_current_instance.display_text(dialog, speaker_name, avatar)
+	_current_instance.display_text(dialog, speaker, load("res://avatars/guy.png"))

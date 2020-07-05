@@ -1,0 +1,108 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/EXP-System-Dialog/Resource_EditorStory/EXP_EditorStory.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+TYPE = "EXP_Story_editor"
+names = {
+"prologue/intro": 1
+}
+story = {
+1: {
+"available_nid": [  ],
+"groups": [  ],
+"human_readable_description": "The intro to this weird ass test game",
+"name": "prologue/intro",
+"nodes": {
+1: {
+"graph_offset": Vector2( -140, -220 ),
+"links": {
+0: 2
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "???: Welcome to this test story.
+It will test a lot of things.",
+"type": "line"
+},
+2: {
+"graph_offset": Vector2( 340, -220 ),
+"links": {
+0: 6,
+1: 4
+},
+"rect_size": Vector2( 441, 177 ),
+"slot_amount": 2,
+"text": "Guy:
+What would you like to know first?
+\\q0 Who am I?
+\\q1 Where am I?",
+"type": "line"
+},
+3: {
+"graph_offset": Vector2( 1340, -300 ),
+"links": {
+0: 7
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "What's your name?
+\\text_input{Playername}",
+"type": "line"
+},
+4: {
+"graph_offset": Vector2( 860, -100 ),
+"links": {
+0: 5
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "You are in the Hall of Judgement. You will be prosecuted for your crimes. Though, I won't be telling you what those crimes are yet...",
+"type": "line"
+},
+5: {
+"graph_offset": Vector2( 1340, -100 ),
+"links": {
+0: 3
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "But before that, I have a question to ask you.",
+"type": "line"
+},
+6: {
+"graph_offset": Vector2( 860, -300 ),
+"links": {
+0: 3
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "You are a Player. Though, I sure would like to know if you have a name.",
+"type": "line"
+},
+7: {
+"graph_offset": Vector2( 1820, -300 ),
+"links": {
+0: 8
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "Ah, {Playername}? That sure is a name.",
+"type": "line"
+},
+8: {
+"graph_offset": Vector2( 2300, -300 ),
+"links": {
+
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "Either way... The hour of judgement is upon you. Steel yourself.",
+"type": "line"
+}
+}
+}
+}
+available_dids = [  ]
+groups = [  ]
