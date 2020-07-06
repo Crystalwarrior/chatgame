@@ -1,6 +1,7 @@
 extends Node
 
 onready var _chatline = preload("res://scenes/Chatline.tscn")
+onready var _choice_container = preload("res://scenes/ChoiceContainer.tscn")
 onready var _box = $ScrollContainer/VBoxContainer
 onready var _scrollcontainer = $ScrollContainer
 onready var _scrollbar = $ScrollContainer.get_v_scrollbar()
@@ -68,7 +69,7 @@ func _get_tagged_text(tag : String, text : String):
 
 
 func _inject_variables(text : String, start_check : String = "{", end_check : String = "}") -> String:
-	while text.find("{") != -1:
+	while text.find(start_check) != -1:
 		var start_index = text.find(start_check)
 		var end_index = text.find(end_check)
 		if end_index == -1:
@@ -81,9 +82,28 @@ func _inject_variables(text : String, start_check : String = "{", end_check : St
 
 	return text
 
+#probably should use regex for this, would be easier
+func _parse_calls(text: String):
+	while text.find("\\") != -1:
+		var start_index = text.find("\\")
+		var end_index = text.substr(start_index).find("]")+1
+		if end_index == -1:
+			end_index = text.substr(start_index).find(" ")
+			if end_index == -1:
+				#if this is end of string, it will return -1 anyway
+				end_index = text.substr(start_index).find("\n")
+		
+		print(text.substr(start_index, end_index))
+		if end_index == -1:
+			end_index = text.length()
+		text.erase(start_index, end_index)
+
+	return text
+
 func _play_node():
 	var raw_text = _Story_Reader.get_text(_did, _nid)
 	raw_text = _inject_variables(raw_text)
+	raw_text = _parse_calls(raw_text)
 	var dialog = raw_text
 	var speaker = ""
 	var colon = raw_text.find(":")

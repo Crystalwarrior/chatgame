@@ -36,8 +36,8 @@ It will test a lot of things.",
 "slot_amount": 2,
 "text": "Guy:
 What would you like to know first?
-\\q0 Who am I?
-\\q1 Where am I?",
+\\q[Who am I?]
+\\q[Where am I?]",
 "type": "line"
 },
 3: {
@@ -48,7 +48,7 @@ What would you like to know first?
 "rect_size": Vector2( 324, 137 ),
 "slot_amount": 1,
 "text": "What's your name?
-\\text_input{Playername}",
+\\input[text, Playername]",
 "type": "line"
 },
 4: {

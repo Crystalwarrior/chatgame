@@ -22,15 +22,15 @@ It will test a lot of things."
 },
 "text": "Guy:
 What would you like to know first?
-\\q0 Who am I?
-\\q1 Where am I?"
+\\q[Who am I?]
+\\q[Where am I?]"
 },
 3: {
 "links": {
 0: 7
 },
 "text": "What's your name?
-\\text_input{Playername}"
+\\input[text, Playername]"
 },
 4: {
 "links": {
