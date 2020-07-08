@@ -83,27 +83,46 @@ func _inject_variables(text : String, start_check : String = "{", end_check : St
 	return text
 
 #probably should use regex for this, would be easier
-func _parse_calls(text: String):
+func _parse_methods(text: String):
 	while text.find("\\") != -1:
 		var start_index = text.find("\\")
-		var end_index = text.substr(start_index).find("]")+1
+		var end_index = text.substr(start_index).find("]")
 		if end_index == -1:
-			end_index = text.substr(start_index).find(" ")
+			end_index = text.substr(start_index).find("\n")
 			if end_index == -1:
 				#if this is end of string, it will return -1 anyway
-				end_index = text.substr(start_index).find("\n")
-		
-		print(text.substr(start_index, end_index))
+				end_index = text.substr(start_index).find(" ")
+
+		var extract = text.substr(start_index+1, end_index-1)
+		var method = _parse_call(extract)
+		assert(has_method("_diag_%s" % method[0]))
+		callv("_diag_%s" % method[0], method[1])
+
 		if end_index == -1:
 			end_index = text.length()
+		else:
+			end_index += 1
 		text.erase(start_index, end_index)
 
 	return text
 
+#Returns a result Array with index 0 being the method name, and index 1 being the arguments that were passed.
+func _parse_call(text: String) -> Array:
+	var result = ["", []]
+	var split = text.split("[")
+	result[0] = split[0]
+	if len(split) > 1:
+		result[1] = split[1].replace("]", "").split(",")
+		for i in range(result[1].size()):
+			var string = result[1][i]
+			string = string.strip_edges()
+			result[1][i] = string
+	return result
+
 func _play_node():
 	var raw_text = _Story_Reader.get_text(_did, _nid)
 	raw_text = _inject_variables(raw_text)
-	raw_text = _parse_calls(raw_text)
+	raw_text = _parse_methods(raw_text)
 	var dialog = raw_text
 	var speaker = ""
 	var colon = raw_text.find(":")
@@ -119,3 +138,15 @@ func _play_node():
 	yield(get_tree(), "idle_frame")
 	_scrollcontainer.scroll_vertical = _scrollbar.max_value
 	_current_instance.display_text(dialog, speaker, load("res://avatars/guy.png"))
+
+func _diag_test():
+	print("Test success!")
+
+func _diag_question(question: String):
+	print("We have to ask question '%s'" % question)
+
+func _diag_q(question: String):
+	_diag_question(question)
+
+func _diag_input(type: String, entry):
+	print("Input type '%s' requested on entry '%s'" % [type, entry])
