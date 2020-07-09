@@ -37,9 +37,7 @@ It will test a lot of things.",
 "text": "Guy:
 What would you like to know first?
 \\q[Who am I?]
-\\q[Where am I?]
-\\test
-Woah bro nice",
+\\q[Where am I?]",
 "type": "line"
 },
 3: {

@@ -5,12 +5,16 @@ onready var _choice_container = preload("res://scenes/ChoiceContainer.tscn")
 onready var _box = $ScrollContainer/VBoxContainer
 onready var _scrollcontainer = $ScrollContainer
 onready var _scrollbar = $ScrollContainer.get_v_scrollbar()
+onready var _next_button = $NextButton
 
 var _did = 0
 var _nid = 0
 var _Story_Reader
 var _playing_dialog = false
 var _current_instance
+
+#A pending method call once the dialogue is finished
+var _pending_method = ["", []]
 var _waiting = true
 
 # Virtual Methods
@@ -40,6 +44,11 @@ func _on_NextButton_pressed():
 
 func _on_Chatline_finished():
 	_waiting = false
+	print(_pending_method[0])
+	if has_method(_pending_method[0]):
+		var method = _pending_method.duplicate()
+		_pending_method = ["", []]
+		callv(method[0], method[1])
 
 
 # Public Methods
@@ -139,11 +148,37 @@ func _play_node():
 	_scrollcontainer.scroll_vertical = _scrollbar.max_value
 	_current_instance.display_text(dialog, speaker, load("res://avatars/guy.png"))
 
+func _compose_questions_list(questions: PoolStringArray):
+	_current_instance = _choice_container.instance()
+	_current_instance.connect("clicked", self, "_on_choice_clicked")
+	_box.add_child(_current_instance)
+	yield(get_tree(), "idle_frame")
+	for q in questions:
+		_current_instance.add_option(q)
+	yield(get_tree(), "idle_frame")
+	_scrollcontainer.scroll_vertical = _scrollbar.max_value
+
+func _on_choice_clicked(slot: int):
+	_get_next_node(slot)
+	if _playing_dialog:
+		_play_node()
+	
+	_next_button.disabled = false
+	_next_button.text = "Next"
+
 func _diag_test():
 	print("Test success!")
 
 func _diag_question(question: String):
 	print("We have to ask question '%s'" % question)
+	if _pending_method[0] != "_compose_questions_list":
+		_pending_method = ["_compose_questions_list", [ [] ]]
+		_next_button.disabled = true
+		_next_button.text = "Make Your Choice"
+
+	# append the question to the existing arg array within the poolstringarray argument
+	# (we are using callv hence complexity)
+	_pending_method[1][0].append(question)
 
 func _diag_q(question: String):
 	_diag_question(question)

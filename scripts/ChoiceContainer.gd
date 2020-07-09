@@ -8,11 +8,9 @@ onready var _Container = $VBoxContainer
 
 
 func _ready():
-	_add_option("Option 1")
-	_add_option("Option 2")
-	_add_option("Option 3")
+	pass
 
-func _add_option(text : String):
+func add_option(text : String):
 	var option = _ChoiceTemplate.duplicate()
 	_Container.add_child(option)
 	option.set_text(text)
