@@ -35,6 +35,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ChoiceContainer" parent="ChatWindow/ScrollContainer/VBoxContainer" instance=ExtResource( 2 )]
+visible = false
 anchor_right = 0.0
 margin_right = 480.0
 
