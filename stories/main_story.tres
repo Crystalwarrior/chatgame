@@ -6,11 +6,12 @@
 script = ExtResource( 1 )
 TYPE = "EXP_Story_editor"
 names = {
-"prologue/intro": 1
+"prologue/intro": 1,
+"prologue/testimony": 2
 }
 story = {
 1: {
-"available_nid": [  ],
+"available_nid": [ 9 ],
 "groups": [  ],
 "human_readable_description": "The intro to this weird ass test game",
 "name": "prologue/intro",
@@ -99,6 +100,139 @@ What would you like to know first?
 "rect_size": Vector2( 324, 137 ),
 "slot_amount": 1,
 "text": "Either way... The hour of judgement is upon you. Steel yourself.",
+"type": "line"
+}
+}
+},
+2: {
+"available_nid": [ 2, 3, 13 ],
+"groups": [  ],
+"human_readable_description": "Testimony container for the prologue.",
+"name": "prologue/testimony",
+"nodes": {
+1: {
+"graph_offset": Vector2( 60, -200 ),
+"links": {
+0: 4,
+1: 6,
+2: 5
+},
+"rect_size": Vector2( 441, 177 ),
+"slot_amount": 3,
+"text": "???: This is the first statement.",
+"type": "line"
+},
+4: {
+"graph_offset": Vector2( 60, 220 ),
+"links": {
+1: 6,
+2: 11
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 3,
+"text": "This is the last statement.",
+"type": "line"
+},
+5: {
+"graph_offset": Vector2( 560, -20 ),
+"links": {
+0: 7,
+1: 8
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 2,
+"text": "[is this evidence \"murder weapon\"?]
+0 = yes
+1 = no",
+"type": "line"
+},
+6: {
+"graph_offset": Vector2( 560, -200 ),
+"links": {
+0: 10
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "???: simple press",
+"type": "line"
+},
+7: {
+"graph_offset": Vector2( 1540, 0 ),
+"links": {
+
+},
+"rect_size": Vector2( 441, 150 ),
+"slot_amount": 2,
+"text": "[go to next dialogue]",
+"type": "line"
+},
+8: {
+"graph_offset": Vector2( 1040, 60 ),
+"links": {
+0: 7,
+1: 9
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 2,
+"text": "[is this evidence \"blood\"?]
+0 = yes
+1 = no",
+"type": "line"
+},
+9: {
+"graph_offset": Vector2( 1560, 440 ),
+"links": {
+
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "[penalize player, go back to same statement]]",
+"type": "line"
+},
+10: {
+"graph_offset": Vector2( 1080, -200 ),
+"links": {
+
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "[go to the next statement of the testimony]",
+"type": "line"
+},
+11: {
+"graph_offset": Vector2( 560, 260 ),
+"links": {
+0: 12,
+1: 9
+},
+"rect_size": Vector2( 441, 177 ),
+"slot_amount": 2,
+"text": "[did this statement change meaning?]
+0 = yes
+1 = no",
+"type": "line"
+},
+12: {
+"graph_offset": Vector2( 1040, 260 ),
+"links": {
+0: 14,
+1: 9
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 2,
+"text": "[is evidence presented \"murder weapon\"?]
+0 = yes
+1 = no",
+"type": "line"
+},
+14: {
+"graph_offset": Vector2( 1560, 260 ),
+"links": {
+
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "congratulations you win the game",
 "type": "line"
 }
 }

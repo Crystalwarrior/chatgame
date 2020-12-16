@@ -2,6 +2,7 @@ extends Node
 
 onready var _chatline = preload("res://scenes/Chatline.tscn")
 onready var _choice_container = preload("res://scenes/ChoiceContainer.tscn")
+onready var _input_container = preload("res://scenes/InputContainer.tscn")
 onready var _box = $ScrollContainer/VBoxContainer
 onready var _scrollcontainer = $ScrollContainer
 onready var _scrollbar = $ScrollContainer.get_v_scrollbar()
@@ -158,6 +159,13 @@ func _compose_questions_list(questions: PoolStringArray):
 	yield(get_tree(), "idle_frame")
 	_scrollcontainer.scroll_vertical = _scrollbar.max_value
 
+func _initialize_input(type: String, entry):
+	_current_instance = _input_container.instance()
+	_current_instance.connect("entered", self, "_on_input_received", [type, entry])
+	_box.add_child(_current_instance)
+	yield(get_tree(), "idle_frame")
+	_scrollcontainer.scroll_vertical = _scrollbar.max_value
+
 func _on_choice_clicked(slot: int):
 	_get_next_node(slot)
 	if _playing_dialog:
@@ -166,8 +174,15 @@ func _on_choice_clicked(slot: int):
 	_next_button.disabled = false
 	_next_button.text = "Next"
 
-func _diag_test():
-	print("Test success!")
+func _on_input_received(input: String, type: String, entry):
+	print("Input '%s' received of type '%s' on entry '%s'" % [input, type, entry])
+	Registry.set(entry, input)
+	_get_next_node()
+	if _playing_dialog:
+		_play_node()
+
+	_next_button.disabled = false
+	_next_button.text = "Next"
 
 func _diag_question(question: String):
 	print("We have to ask question '%s'" % question)
@@ -184,4 +199,6 @@ func _diag_q(question: String):
 	_diag_question(question)
 
 func _diag_input(type: String, entry):
-	print("Input type '%s' requested on entry '%s'" % [type, entry])
+	_next_button.disabled = true
+	_next_button.text = "Enter Your Text"
+	_pending_method = ["_initialize_input", [type, entry]]

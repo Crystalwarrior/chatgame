@@ -63,8 +63,94 @@ What would you like to know first?
 "text": "Either way... The hour of judgement is upon you. Steel yourself."
 }
 }
+},
+2: {
+"nodes": {
+1: {
+"links": {
+0: 4,
+1: 6,
+2: 5
+},
+"text": "???: This is the first statement."
+},
+4: {
+"links": {
+1: 6,
+2: 11
+},
+"text": "This is the last statement."
+},
+5: {
+"links": {
+0: 7,
+1: 8
+},
+"text": "[is this evidence \"murder weapon\"?]
+0 = yes
+1 = no"
+},
+6: {
+"links": {
+0: 10
+},
+"text": "???: simple press"
+},
+7: {
+"links": {
+
+},
+"text": "[go to next dialogue]"
+},
+8: {
+"links": {
+0: 7,
+1: 9
+},
+"text": "[is this evidence \"blood\"?]
+0 = yes
+1 = no"
+},
+9: {
+"links": {
+
+},
+"text": "[penalize player, go back to same statement]]"
+},
+10: {
+"links": {
+
+},
+"text": "[go to the next statement of the testimony]"
+},
+11: {
+"links": {
+0: 12,
+1: 9
+},
+"text": "[did this statement change meaning?]
+0 = yes
+1 = no"
+},
+12: {
+"links": {
+0: 14,
+1: 9
+},
+"text": "[is evidence presented \"murder weapon\"?]
+0 = yes
+1 = no"
+},
+14: {
+"links": {
+
+},
+"text": "congratulations you win the game"
+}
+}
 }
 }
 names = {
-"prologue/intro": 1
+"prologue/intro": 1,
+"prologue/testimony": 2
 }
