@@ -31,7 +31,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="EvidenceList" type="ItemList" parent="VBoxContainer/HBoxContainer"]
+[node name="ItemList" type="ItemList" parent="VBoxContainer/HBoxContainer"]
 margin_right = 231.0
 margin_bottom = 606.0
 size_flags_horizontal = 3
@@ -63,6 +63,7 @@ text = "Epic evidence description over here describing how useful and epic it is
 margin_top = 562.0
 margin_right = 231.0
 margin_bottom = 582.0
+disabled = true
 text = "Present!"
 
 [node name="Cancel" type="Button" parent="VBoxContainer/HBoxContainer/Infobox"]
@@ -70,4 +71,7 @@ margin_top = 586.0
 margin_right = 231.0
 margin_bottom = 606.0
 text = "Cancel"
+[connection signal="item_activated" from="VBoxContainer/HBoxContainer/ItemList" to="." method="_on_ItemList_item_activated"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/ItemList" to="." method="_on_ItemList_item_selected"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Infobox/Present" to="." method="_on_Present_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Infobox/Cancel" to="." method="_on_Cancel_pressed"]

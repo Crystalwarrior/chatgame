@@ -115,7 +115,7 @@ What would you like to know first?
 }
 },
 2: {
-"available_nid": [ 5, 7, 8, 9, 11, 12, 14 ],
+"available_nid": [ 9, 11, 12, 14 ],
 "groups": [  ],
 "human_readable_description": "Testimony container for the prologue.",
 "name": "prologue/testimony",
@@ -133,7 +133,8 @@ What would you like to know first?
 2: {
 "graph_offset": Vector2( -180, -260 ),
 "links": {
-0: 6
+0: 6,
+1: 5
 },
 "rect_size": Vector2( 324, 137 ),
 "slot_amount": 2,
@@ -143,21 +144,34 @@ What would you like to know first?
 3: {
 "graph_offset": Vector2( -180, -80 ),
 "links": {
-
+0: 6,
+1: 5
 },
 "rect_size": Vector2( 324, 137 ),
-"slot_amount": 1,
+"slot_amount": 2,
 "text": "This is the second statement.",
 "type": "line"
 },
 4: {
-"graph_offset": Vector2( -180, 80 ),
+"graph_offset": Vector2( -180, 120 ),
 "links": {
-
+0: 6,
+1: 5
 },
 "rect_size": Vector2( 324, 137 ),
-"slot_amount": 1,
+"slot_amount": 2,
 "text": "This is the third statement.",
+"type": "line"
+},
+5: {
+"graph_offset": Vector2( 300, -100 ),
+"links": {
+0: 7,
+1: 8
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 2,
+"text": "\\evi_check[Knife]",
 "type": "line"
 },
 6: {
@@ -170,8 +184,28 @@ What would you like to know first?
 "text": "???: simple press",
 "type": "line"
 },
+7: {
+"graph_offset": Vector2( 780, -100 ),
+"links": {
+0: 10
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "Presented correct evidence - {PRESENTED}",
+"type": "line"
+},
+8: {
+"graph_offset": Vector2( 780, 60 ),
+"links": {
+0: 10
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "Presented something else - {PRESENTED}",
+"type": "line"
+},
 10: {
-"graph_offset": Vector2( 780, -260 ),
+"graph_offset": Vector2( 1400, -260 ),
 "links": {
 
 },

@@ -80,27 +80,49 @@ What would you like to know first?
 },
 2: {
 "links": {
-0: 6
+0: 6,
+1: 5
 },
 "text": "This is the first statement."
 },
 3: {
 "links": {
-
+0: 6,
+1: 5
 },
 "text": "This is the second statement."
 },
 4: {
 "links": {
-
+0: 6,
+1: 5
 },
 "text": "This is the third statement."
+},
+5: {
+"links": {
+0: 7,
+1: 8
+},
+"text": "\\evi_check[Knife]"
 },
 6: {
 "links": {
 0: 10
 },
 "text": "???: simple press"
+},
+7: {
+"links": {
+0: 10
+},
+"text": "Presented correct evidence - {PRESENTED}"
+},
+8: {
+"links": {
+0: 10
+},
+"text": "Presented something else - {PRESENTED}"
 },
 10: {
 "links": {

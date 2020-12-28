@@ -217,7 +217,22 @@ func _on_present(nid: int):
 	chatline.display_text(dialog, speaker, load("res://avatars/guy.png"))
 	chatline.stop()
 	
+	_evidence_container._initialize_evidence()
 	_evidence_container.set_visible(true)
+	_evidence_container.connect("present_evidence", self, "_on_present_evidence", [nid])
+
+func _on_present_evidence(slot: int, nid: int):
+	var evi_list = Registry.lookup("EVIDENCE")
+	var evi = evi_list[slot]
+	Registry.set("PRESENTED", evi["name"])
+	_evidence_container.set_visible(false)
+	_next_button.disabled = false
+	_next_button.text = "Next"
+	# Slot 1 for testimony statements is always present
+	_nid = _Story_Reader.get_nid_from_slot(_did, nid, 1)
+	if _playing_dialog:
+		_play_node()
+	
 
 func _diag_question(question: String):
 	print("We have to ask question '%s'" % question)
@@ -265,6 +280,26 @@ func _diag_load_record(record_name: String):
 
 func _diag_goto(nid: String):
 	_nid = int(nid)
-	print(nid)
-	print("poop")
 	_play_node()
+
+func _diag_evi_check(evi_name: String):
+	var last_presented = Registry.lookup("PRESENTED")
+	if last_presented == evi_name:
+		_get_next_node(0)
+	else:
+		_get_next_node(1)
+	_play_node()
+
+func _diag_evi_add(evi_name: String, evi_desc: String):
+	var evi_list = Registry.lookup("EVIDENCE")
+	var icon  = load("res://icon.png")
+	var image = load("res://icon.png")
+	evi_list.append({"name": evi_name, "icon": icon, "image": image, "desc": evi_desc})
+	print("Adding new evidence %" % evi_name)
+
+func _diag_evi_remove(evi_name: String):
+	var evi_list = Registry.lookup("EVIDENCE")
+	for evi in evi_list:
+		if evi["name"] == evi_name:
+			evi_list.erase(evi)
+			break
