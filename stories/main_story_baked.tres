@@ -74,15 +74,13 @@ What would you like to know first?
 "nodes": {
 1: {
 "links": {
-0: 2,
-1: 3,
-2: 4
+0: 13
 },
-"text": "\\testimony"
+"text": "This is the first statement."
 },
 2: {
 "links": {
-
+0: 6
 },
 "text": "This is the first statement."
 },
@@ -98,71 +96,37 @@ What would you like to know first?
 },
 "text": "This is the third statement."
 },
-5: {
-"links": {
-0: 7,
-1: 8
-},
-"text": "[is this evidence \"murder weapon\"?]
-0 = yes
-1 = no"
-},
 6: {
 "links": {
 0: 10
 },
 "text": "???: simple press"
 },
-7: {
-"links": {
-
-},
-"text": "[go to next dialogue]"
-},
-8: {
-"links": {
-0: 7,
-1: 9
-},
-"text": "[is this evidence \"blood\"?]
-0 = yes
-1 = no"
-},
-9: {
-"links": {
-
-},
-"text": "[penalize player, go back to same statement]]"
-},
 10: {
 "links": {
 
 },
-"text": "[go to the next statement of the testimony]"
+"text": "\\goto[16]"
 },
-11: {
+13: {
 "links": {
-0: 12,
-1: 9
+0: 15
 },
-"text": "[did this statement change meaning?]
-0 = yes
-1 = no"
+"text": "This is the second statement."
 },
-12: {
+15: {
 "links": {
-0: 14,
-1: 9
+0: 16
 },
-"text": "[is evidence presented \"murder weapon\"?]
-0 = yes
-1 = no"
+"text": "This is the third statement."
 },
-14: {
+16: {
 "links": {
-
+0: 2,
+1: 3,
+2: 4
 },
-"text": "congratulations you win the game"
+"text": "\\testimony"
 }
 }
 }

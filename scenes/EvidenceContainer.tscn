@@ -42,6 +42,12 @@ stretch_mode = 6
 [node name="Description" type="RichTextLabel" parent="HBoxContainer/Infobox"]
 margin_top = 235.0
 margin_right = 231.0
-margin_bottom = 706.0
+margin_bottom = 682.0
 size_flags_vertical = 3
 text = "Epic evidence description over here describing how useful and epic it is"
+
+[node name="Button" type="Button" parent="HBoxContainer/Infobox"]
+margin_top = 686.0
+margin_right = 231.0
+margin_bottom = 706.0
+text = "Present!"

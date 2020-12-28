@@ -28,7 +28,7 @@ func _ready():
 	var story = load("res://stories/main_story_baked.tres")
 	_Story_Reader.read(story)
 
-	play_dialog("prologue/intro")
+	play_dialog("prologue/testimony")
 
 # Callback Methods
 
@@ -186,11 +186,18 @@ func _on_input_received(input: String, type: String, entry):
 	_next_button.disabled = false
 	_next_button.text = "Next"
 
-func _on_press(slot: int):
-	print("Pressing %s" % slot)
+func _on_press(nid: int):
+	print("Pressing NID %s" % nid)
+	# Slot 0 for testimony statements is always press
+	_nid = _Story_Reader.get_nid_from_slot(_did, nid, 0)
+	if _playing_dialog:
+		_play_node()
 
-func _on_present(slot: int):
-	print("Presenting %s" % slot)
+	_next_button.disabled = false
+	_next_button.text = "Next"
+
+func _on_present(nid: int):
+	print("Presenting NID %s" % nid)
 
 func _diag_question(question: String):
 	print("We have to ask question '%s'" % question)
@@ -221,7 +228,8 @@ func _diag_testimony():
 	yield(get_tree(), "idle_frame")
 	_scrollcontainer.scroll_vertical = _scrollbar.max_value
 	for slot in _Story_Reader.get_slots(_did, _nid):
-		var raw_text = _Story_Reader.get_text(_did, _Story_Reader.get_nid_from_slot(_did, _nid, slot))
+		var statement_nid = _Story_Reader.get_nid_from_slot(_did, _nid, slot)
+		var raw_text = _Story_Reader.get_text(_did, statement_nid)
 		raw_text = _inject_variables(raw_text)
 		var dialog = raw_text
 		var speaker = ""
@@ -229,8 +237,14 @@ func _diag_testimony():
 		if colon != -1:
 			speaker = raw_text.substr(0, colon).strip_edges()
 			dialog = raw_text.substr(colon+1).strip_edges()
-		_current_instance.add_statement(dialog, speaker, load("res://avatars/guy.png"))
+		_current_instance.add_statement(dialog, speaker, load("res://avatars/guy.png"), statement_nid)
 	_current_instance.play_statement(0)
 
 func _diag_load_record(record_name: String):
 	play_dialog(record_name)
+
+func _diag_goto(nid: String):
+	_nid = int(nid)
+	print(nid)
+	print("poop")
+	_play_node()

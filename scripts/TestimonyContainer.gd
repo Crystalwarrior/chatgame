@@ -1,7 +1,7 @@
 extends PanelContainer
 
-signal press(slot)
-signal present(slot)
+signal press(nid)
+signal present(nid)
 
 onready var index_buttons = $VBoxContainer/Index
 onready var index_template = $VBoxContainer/IndexTemplate
@@ -15,10 +15,10 @@ var current_slot = 0
 func _ready():
 	var avatar = load("res://avatars/guy.png")
 
-func add_statement(dialog, speaker, avatar, can_press=true, can_present=true):
+func add_statement(dialog, speaker, avatar, nid, can_press=true, can_present=true):
 	statements.append(
 		{
-			"dialog": dialog, "speaker": speaker, "avatar": avatar,
+			"dialog": dialog, "speaker": speaker, "avatar": avatar, "nid": nid,
 			"can_press": can_press, "can_present": can_present
 		}
 	)
@@ -73,8 +73,9 @@ func disable():
 
 
 func _on_press_pressed():
-	emit_signal("press", current_slot)
+	emit_signal("press", statements[current_slot]["nid"])
+	disable()
 
 
 func _on_present_pressed():
-	emit_signal("present", current_slot)
+	emit_signal("present", statements[current_slot]["nid"])
