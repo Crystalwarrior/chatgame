@@ -1,37 +1,50 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://scenes/Chatline.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/EvidenceContainer.gd" type="Script" id=3]
 
 [node name="EvidenceContainer" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 473.0
 margin_bottom = 713.0
+
+[node name="Chatline" parent="VBoxContainer" instance=ExtResource( 2 )]
+margin_right = 466.0
+margin_bottom = 96.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 100.0
+margin_right = 466.0
+margin_bottom = 706.0
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ItemList" type="ItemList" parent="HBoxContainer"]
+[node name="EvidenceList" type="ItemList" parent="VBoxContainer/HBoxContainer"]
 margin_right = 231.0
-margin_bottom = 706.0
+margin_bottom = 606.0
 size_flags_horizontal = 3
 items = [ "Item 0", ExtResource( 1 ), false, "Item 1", null, false, "Item 2", null, false ]
 fixed_icon_size = Vector2( 32, 32 )
 
-[node name="Infobox" type="VBoxContainer" parent="HBoxContainer"]
+[node name="Infobox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 margin_left = 235.0
 margin_right = 466.0
-margin_bottom = 706.0
+margin_bottom = 606.0
 size_flags_horizontal = 3
 
-[node name="Image" type="TextureRect" parent="HBoxContainer/Infobox"]
+[node name="Image" type="TextureRect" parent="VBoxContainer/HBoxContainer/Infobox"]
 margin_right = 231.0
 margin_bottom = 231.0
 rect_min_size = Vector2( 0, 231 )
@@ -39,15 +52,22 @@ texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
 
-[node name="Description" type="RichTextLabel" parent="HBoxContainer/Infobox"]
+[node name="Description" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/Infobox"]
 margin_top = 235.0
 margin_right = 231.0
-margin_bottom = 682.0
+margin_bottom = 558.0
 size_flags_vertical = 3
 text = "Epic evidence description over here describing how useful and epic it is"
 
-[node name="Button" type="Button" parent="HBoxContainer/Infobox"]
-margin_top = 686.0
+[node name="Present" type="Button" parent="VBoxContainer/HBoxContainer/Infobox"]
+margin_top = 562.0
 margin_right = 231.0
-margin_bottom = 706.0
+margin_bottom = 582.0
 text = "Present!"
+
+[node name="Cancel" type="Button" parent="VBoxContainer/HBoxContainer/Infobox"]
+margin_top = 586.0
+margin_right = 231.0
+margin_bottom = 606.0
+text = "Cancel"
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Infobox/Cancel" to="." method="_on_Cancel_pressed"]

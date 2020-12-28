@@ -1,9 +1,11 @@
-extends Node
+extends Control
 
 onready var _chatline = preload("res://scenes/Chatline.tscn")
 onready var _choice_container = preload("res://scenes/ChoiceContainer.tscn")
 onready var _input_container = preload("res://scenes/InputContainer.tscn")
 onready var _testimony_container = preload("res://scenes/TestimonyContainer.tscn")
+
+onready var _evidence_container = $"/root/Main/EvidenceContainer"
 onready var _box = $ScrollContainer/VBoxContainer
 onready var _scrollcontainer = $ScrollContainer
 onready var _scrollbar = $ScrollContainer.get_v_scrollbar()
@@ -198,6 +200,24 @@ func _on_press(nid: int):
 
 func _on_present(nid: int):
 	print("Presenting NID %s" % nid)
+	var chatline = _evidence_container.get_node("VBoxContainer/Chatline")
+
+	var raw_text = _Story_Reader.get_text(_did, nid)
+	raw_text = _inject_variables(raw_text)
+#	raw_text = _parse_methods(raw_text)
+	var dialog = raw_text
+	if dialog.empty(): # There's nothing to display.
+		return
+	var speaker = ""
+	var colon = raw_text.find(":")
+	if colon != -1:
+		speaker = raw_text.substr(0, colon).strip_edges()
+		dialog = raw_text.substr(colon+1).strip_edges()
+
+	chatline.display_text(dialog, speaker, load("res://avatars/guy.png"))
+	chatline.stop()
+	
+	_evidence_container.set_visible(true)
 
 func _diag_question(question: String):
 	print("We have to ask question '%s'" % question)
