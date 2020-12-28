@@ -14,19 +14,24 @@ var current_slot = 0
 
 func _ready():
 	var avatar = load("res://avatars/guy.png")
-	add_statement("This is testimony 1", "Bob", avatar)
-	add_statement("This is statement 2", "Bob", avatar)
-	add_statement("This is statement 3, the final statement", "Bob", avatar)
-	play_statement(current_slot)
 
-func add_statement(dialog, speaker, avatar):
-	statements.append({"dialog": dialog, "speaker": speaker, "avatar": avatar})
+func add_statement(dialog, speaker, avatar, can_press=true, can_present=true):
+	statements.append(
+		{
+			"dialog": dialog, "speaker": speaker, "avatar": avatar,
+			"can_press": can_press, "can_present": can_present
+		}
+	)
 	_add_index_button()
 
 func play_statement(slot: int):
 	current_slot = slot
 	var statement = statements[current_slot]
-	chat.display_text(statement["dialog"], statement["speaker"], statement["avatar"])
+	chat.display_text(
+		statement["dialog"], statement["speaker"], statement["avatar"]
+	)
+	input_buttons.get_node("press").set_disabled(!statement["can_press"])
+	input_buttons.get_node("present").set_disabled(!statement["can_present"])
 	set_index_button(current_slot)
 
 func _on_left_pressed():
@@ -59,3 +64,17 @@ func set_index_button(slot: int):
 	var option = index_buttons.get_child(slot)
 	option.set_pressed(true)
 	option.mouse_filter = MOUSE_FILTER_IGNORE
+
+func disable():
+	for button in input_buttons.get_children():
+		button.set_disabled(true)
+	for button in index_buttons.get_children():
+		button.set_disabled(true)
+
+
+func _on_press_pressed():
+	emit_signal("press", current_slot)
+
+
+func _on_present_pressed():
+	emit_signal("present", current_slot)

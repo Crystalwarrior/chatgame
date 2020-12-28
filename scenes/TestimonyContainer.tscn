@@ -69,4 +69,6 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 text = ">"
 [connection signal="pressed" from="VBoxContainer/Input/left" to="." method="_on_left_pressed"]
+[connection signal="pressed" from="VBoxContainer/Input/press" to="." method="_on_press_pressed"]
+[connection signal="pressed" from="VBoxContainer/Input/present" to="." method="_on_present_pressed"]
 [connection signal="pressed" from="VBoxContainer/Input/right" to="." method="_on_right_pressed"]

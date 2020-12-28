@@ -11,7 +11,7 @@ names = {
 }
 story = {
 1: {
-"available_nid": [ 9 ],
+"available_nid": [  ],
 "groups": [  ],
 "human_readable_description": "The intro to this weird ass test game",
 "name": "prologue/intro",
@@ -95,42 +95,71 @@ What would you like to know first?
 8: {
 "graph_offset": Vector2( 2300, -300 ),
 "links": {
+0: 9
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "Either way... The hour of judgement is upon you. Begin testimony!",
+"type": "line"
+},
+9: {
+"graph_offset": Vector2( 2780, -300 ),
+"links": {
 
 },
 "rect_size": Vector2( 324, 137 ),
 "slot_amount": 1,
-"text": "Either way... The hour of judgement is upon you. Steel yourself.",
+"text": "\\load_record[prologue/testimony]",
 "type": "line"
 }
 }
 },
 2: {
-"available_nid": [ 2, 3, 13 ],
+"available_nid": [ 13 ],
 "groups": [  ],
 "human_readable_description": "Testimony container for the prologue.",
 "name": "prologue/testimony",
 "nodes": {
 1: {
-"graph_offset": Vector2( 60, -200 ),
+"graph_offset": Vector2( -440, -80 ),
 "links": {
-0: 4,
-1: 6,
-2: 5
+0: 2,
+1: 3,
+2: 4
 },
-"rect_size": Vector2( 441, 177 ),
+"rect_size": Vector2( 441, 150 ),
 "slot_amount": 3,
-"text": "???: This is the first statement.",
+"text": "\\testimony",
+"type": "line"
+},
+2: {
+"graph_offset": Vector2( 80, -200 ),
+"links": {
+
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "This is the first statement.",
+"type": "line"
+},
+3: {
+"graph_offset": Vector2( 80, -40 ),
+"links": {
+
+},
+"rect_size": Vector2( 324, 137 ),
+"slot_amount": 1,
+"text": "This is the second statement.",
 "type": "line"
 },
 4: {
-"graph_offset": Vector2( 60, 220 ),
+"graph_offset": Vector2( 80, 120 ),
 "links": {
-1: 6,
-2: 11
+
 },
 "rect_size": Vector2( 324, 137 ),
-"slot_amount": 3,
-"text": "This is the last statement.",
+"slot_amount": 1,
+"text": "This is the third statement.",
 "type": "line"
 },
 5: {

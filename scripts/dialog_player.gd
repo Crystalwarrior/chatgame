@@ -3,6 +3,7 @@ extends Node
 onready var _chatline = preload("res://scenes/Chatline.tscn")
 onready var _choice_container = preload("res://scenes/ChoiceContainer.tscn")
 onready var _input_container = preload("res://scenes/InputContainer.tscn")
+onready var _testimony_container = preload("res://scenes/TestimonyContainer.tscn")
 onready var _box = $ScrollContainer/VBoxContainer
 onready var _scrollcontainer = $ScrollContainer
 onready var _scrollbar = $ScrollContainer.get_v_scrollbar()
@@ -57,7 +58,7 @@ func _on_Chatline_finished():
 func play_dialog(record_name : String):
 	_playing_dialog = true
 	_did = _Story_Reader.get_did_via_record_name(record_name)
-	_nid = 1#_Story_Reader.get_nid_via_exact_text(_did, "<start>")
+	_nid = 1
 	_play_node()
 
 # Private Methods
@@ -102,8 +103,7 @@ func _parse_methods(text: String):
 			if end_index == -1:
 				#if this is end of string, it will return -1 anyway
 				end_index = text.substr(start_index).find(" ")
-
-		var extract = text.substr(start_index+1, end_index-1)
+		var extract = text.substr(start_index+1, max(-1, end_index-1))
 		var method = _parse_call(extract)
 		assert(has_method("_diag_%s" % method[0]))
 		callv("_diag_%s" % method[0], method[1])
@@ -134,6 +134,8 @@ func _play_node():
 	raw_text = _inject_variables(raw_text)
 	raw_text = _parse_methods(raw_text)
 	var dialog = raw_text
+	if dialog.empty(): # There's nothing to display.
+		return
 	var speaker = ""
 	var colon = raw_text.find(":")
 	if colon != -1:
@@ -184,6 +186,12 @@ func _on_input_received(input: String, type: String, entry):
 	_next_button.disabled = false
 	_next_button.text = "Next"
 
+func _on_press(slot: int):
+	print("Pressing %s" % slot)
+
+func _on_present(slot: int):
+	print("Presenting %s" % slot)
+
 func _diag_question(question: String):
 	print("We have to ask question '%s'" % question)
 	if _pending_method[0] != "_compose_questions_list":
@@ -202,3 +210,27 @@ func _diag_input(type: String, entry):
 	_next_button.disabled = true
 	_next_button.text = "Enter Your Text"
 	_pending_method = ["_initialize_input", [type, entry]]
+
+func _diag_testimony():
+	_next_button.disabled = true
+	_next_button.text = "Testimony"
+	_current_instance = _testimony_container.instance()
+	_current_instance.connect("press", self, "_on_press")
+	_current_instance.connect("present", self, "_on_present")
+	_box.add_child(_current_instance)
+	yield(get_tree(), "idle_frame")
+	_scrollcontainer.scroll_vertical = _scrollbar.max_value
+	for slot in _Story_Reader.get_slots(_did, _nid):
+		var raw_text = _Story_Reader.get_text(_did, _Story_Reader.get_nid_from_slot(_did, _nid, slot))
+		raw_text = _inject_variables(raw_text)
+		var dialog = raw_text
+		var speaker = ""
+		var colon = raw_text.find(":")
+		if colon != -1:
+			speaker = raw_text.substr(0, colon).strip_edges()
+			dialog = raw_text.substr(colon+1).strip_edges()
+		_current_instance.add_statement(dialog, speaker, load("res://avatars/guy.png"))
+	_current_instance.play_statement(0)
+
+func _diag_load_record(record_name: String):
+	play_dialog(record_name)

@@ -58,9 +58,15 @@ What would you like to know first?
 },
 8: {
 "links": {
+0: 9
+},
+"text": "Either way... The hour of judgement is upon you. Begin testimony!"
+},
+9: {
+"links": {
 
 },
-"text": "Either way... The hour of judgement is upon you. Steel yourself."
+"text": "\\load_record[prologue/testimony]"
 }
 }
 },
@@ -68,18 +74,29 @@ What would you like to know first?
 "nodes": {
 1: {
 "links": {
-0: 4,
-1: 6,
-2: 5
+0: 2,
+1: 3,
+2: 4
 },
-"text": "???: This is the first statement."
+"text": "\\testimony"
+},
+2: {
+"links": {
+
+},
+"text": "This is the first statement."
+},
+3: {
+"links": {
+
+},
+"text": "This is the second statement."
 },
 4: {
 "links": {
-1: 6,
-2: 11
+
 },
-"text": "This is the last statement."
+"text": "This is the third statement."
 },
 5: {
 "links": {
